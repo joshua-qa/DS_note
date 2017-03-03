@@ -112,6 +112,27 @@ public void add(int position, Object item) {
 
 
 
+* delete(list, position)
+
+```java
+public Object delete(int position) {
+    int index;
+    Object item;
+
+    if(position < 0 || position >= this.length) {
+    	System.out.println("position error");
+    }
+    item = this.list[position];
+
+    for(index = position; index < this.length-1; index++) {
+    	this.list[index] = this.list[index + 1];
+    }
+    this.length--;
+
+    return item;
+}
+```
+
 
 
 ## 링크드 리스트
