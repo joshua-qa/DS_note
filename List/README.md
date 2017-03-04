@@ -1,4 +1,4 @@
-# 리스트  (작성중)
+# 리스트
 
 1) 리스트의 사용 예시
 
@@ -173,15 +173,17 @@ public class LinkedList {
 
 * add_first(list, item)
 
+새로운 노드를 첫번째 노드로 추가한다.
+
 ```java
-public void addFirst(Object input) {
+public void add_first(Object input) {
     Node firstNode = new Node(input);
     firstNode.next = head;
     head = firstNode;
 
     size++;
     if(head.next == null) {
-   	   tail = head;
+  	    tail = head;
     }
 }
 ```
@@ -190,12 +192,14 @@ public void addFirst(Object input) {
 
 * add_last(list, item)
 
+새로운 노드를 마지막 노드로 추가한다.
+
 ```java
-public void addLast(Object input) {
+public void add_last(Object input) {
     Node newNode = new Node(input);
 
     if(size == 0) {
-    	addFirst(input);
+ 		add_first(input);
     } else {
     	tail.next = newNode;
     	tail = newNode;
@@ -206,26 +210,14 @@ public void addLast(Object input) {
 
 
 
-* find(index)
+* add(list, index, item)
+
+새로운 노드를 특정 위치에 추가한다.
 
 ```java
-Node find(int index) {
-    Node x = head;
-    for (int i = 0; i < index; i++) {
-        x = x.next;
-    }
-    return x;
-}
-```
-
-
-
-* add(list, pos, item)
-
-```java
-public void addNode(Object input, int index) {
+public void add(Object input, int index) {
     Node newNode = new Node(input);
-    Node currentNode = find(index-1);
+    Node currentNode = get_node_at(index-1);
     Node tempNode = currentNode.next;
 
     currentNode.next = newNode;
@@ -233,24 +225,44 @@ public void addNode(Object input, int index) {
 
     size++;
     if(newNode.next == null) {
-   	   tail = newNode;
+ 	    tail = newNode;
     }
 }
 ```
 
 
 
-* delete(list, pos)
+*   delete_first(list)
+
+첫번째 노드를 삭제한다. 삭제 후 해당 노드의 data를 반환.
 
 ```java
-public Object deleteNode(int index) {
+public Object delete_first() {
+    Node tempNode = head;
+
+    head = tempNode.next;
+    Object returnData = tempNode.data;
+    tempNode = null;
+    size--;
+    return returnData;
+}
+```
+
+
+
+* delete(list, index)
+
+특정 위치의 노드를 삭제한다. 삭제 후 해당 노드의 data를 반환.
+
+```java
+public Object delete(int index) {
     if (index == 0) {
- 	    return deleteFirst();
+  	    return delete_first();
     }
 
-    Node temp = find(index-1);
-    Node currentNode = temp.next;
-    temp.next = currentNode.next;
+    Node tempNode = get_node_at(index-1);
+    Node currentNode = tempNode.next;
+    tempNode.next = currentNode.next;
 
     Object returnData = currentNode.data;
     currentNode = null;
@@ -261,31 +273,101 @@ public Object deleteNode(int index) {
 
 
 
-* delete_first(list)
+*   get_node_at(list, index)
+
+index 위치에 있는 노드를 반환한다.
 
 ```java
-public Object deleteFirst() {
+Node get_node_at(int index) {
+    Node x = head;
+    for (int i = 0; i < index; i++) {
+        x = x.next;
+    }
+    return x;
+}
+```
+
+
+
+*   clear(list)
+
+모든 노드를 삭제한다.
+
+```java
+public void clear() {
+    int index;
+    for(index = 0; index < this.size; index++) {
+        delete(index);
+    }
+}
+```
+
+
+
+* display(list)
+
+각 노드의 데이터를 한번에 출력한다.
+
+```java
+public void display() {
+    int index;
+    Node currentNode = head;
+    System.out.print("( ");
+
+    for(index = 0; index < this.size; index++) {
+        System.out.print(currentNode.data + " ");
+        currentNode = currentNode.next;
+    }
+    System.out.print(")\n");
+}
+```
+
+
+
+*   is_in_list(list, item)
+
+해당 data 값을 가지고 있는 노드를 탐색한다. 존재하지 않는 경우 -1을 반환, 존재하는 경우 해당 노드의 index 값을 반환.
+
+```java
+public int is_in_list(Object data) {
     Node temp = head;
 
-    head = temp.next;
-    Object returnData = temp.data;
-    temp = null;
-    size--;
-    return returnData;
+    int index = 0;
+
+    while(temp.data != data) {
+        temp = temp.next;
+        index++;
+
+        if(temp == null) {
+            return -1;
+        }
+    }
+
+    return index;
 }
 ```
 
 
 
-* size(list)
+*   get_length(list)
+
+현재 노드 개수를 반환한다.
 
 ```java
-public int size() {
-	return this.size;
+public int get_length() {
+    return this.size;
 }
 ```
 
 
 
+*   get_entry(list, index)
 
+index 위치에 있는 노드의 data값을 반환한다.
 
+```java
+public Object get_entry(int index) {
+    Node tempNode = get_node_at(index);
+    return tempNode.data;
+}
+```
